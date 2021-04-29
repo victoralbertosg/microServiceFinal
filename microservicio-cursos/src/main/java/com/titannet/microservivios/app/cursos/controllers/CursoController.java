@@ -1,5 +1,6 @@
 package com.titannet.microservivios.app.cursos.controllers;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,9 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -39,6 +43,36 @@ public class CursoController extends CommonController<Curso, CursoService> {
 		return ResponseEntity.ok(response);		
 	}
 	
+	@GetMapping
+	@Override	
+	public ResponseEntity<?> listar() {
+		List<Curso> cursos=((List<Curso>) service.findAll()).stream().map(c->{
+			c.getCursoAlumnos().forEach(ca->{
+				Alumno alumno = new Alumno();
+				alumno.setId(ca.getAlumnoId());
+				c.addAlumno(alumno);
+			});
+			return c;
+		}).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(cursos);
+	}
+
+	@GetMapping ("/pagina")
+	@Override	
+	public ResponseEntity<?> listar(Pageable pageable) {
+		Page<Curso> cursos=(service.findAll(pageable)).map(curso->{
+			curso.getCursoAlumnos().forEach(ca->{
+				Alumno alumno = new Alumno();
+				alumno.setId(ca.getAlumnoId());
+				curso.addAlumno(alumno);
+			});
+			return curso;
+		});
+		
+		return ResponseEntity.ok().body(cursos);
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> editar (@RequestBody Curso curso,@PathVariable Long id){
 		
@@ -134,5 +168,23 @@ public class CursoController extends CommonController<Curso, CursoService> {
 		}		
 		
 		return ResponseEntity.ok(curso);
+	}
+	
+	
+	@GetMapping ("/{id}")
+	@Override
+	public ResponseEntity<?> ver (@PathVariable Long id){
+		Optional <Curso> o= service.findById(id);
+		if(o.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		Curso curso=o.get();
+		if (curso.getCursoAlumnos().isEmpty()==false) {
+			List<Long> ids=curso.getCursoAlumnos().stream().map(ca->ca.getAlumnoId())
+					.collect(Collectors.toList());
+			List<Alumno> alumnos=(List<Alumno>) service.obtenerAlumnosPorCurso(ids);
+			curso.setAlumnos(alumnos);
+		}
+		return ResponseEntity.ok().body(curso);
 	}
 }

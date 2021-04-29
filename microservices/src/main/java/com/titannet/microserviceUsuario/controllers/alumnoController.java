@@ -1,6 +1,7 @@
 package com.titannet.microserviceUsuario.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -92,5 +93,9 @@ public class alumnoController extends CommonController<Alumno,AlumnoService> {
 		return ResponseEntity.ok(service.findByNombreOrApellido(term));
 	}
 
+	@GetMapping("/alumnos-por-curso")
+	public ResponseEntity<?> obtenerAlumnosPorCurso (@RequestParam List<Long> ids){
+		return ResponseEntity.ok(service.findAllById(ids));
+	}
 	
 }

@@ -40,16 +40,16 @@ private String nombre;
 @Temporal(TemporalType.TIMESTAMP)
 private Date createAt;
 
+@JsonIgnoreProperties(value= {"curso"}, allowSetters=true)
+@OneToMany (fetch=FetchType.LAZY, mappedBy="curso", cascade=CascadeType.ALL, orphanRemoval=true)
+private List<CursoAlumno> cursoAlumnos;
+
 //@OneToMany (fetch=FetchType.LAZY)
 @Transient
 private List<Alumno> alumnos;
 
 @ManyToMany(fetch=FetchType.LAZY)
 private List<Examen> examenes;
-
-@JsonIgnoreProperties(value= {"curso"}, allowSetters=true)
-@OneToMany (fetch=FetchType.LAZY, mappedBy="curso", cascade=CascadeType.ALL, orphanRemoval=true)
-private List<CursoAlumno> cursoAlumnos;
 
 @PrePersist
 public void prePersist() {
