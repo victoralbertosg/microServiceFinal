@@ -1,43 +1,41 @@
 package com.titannet.microservicios.app.respuestas.models.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 import com.titannet.microservivios.commons.alumnos.entity.Alumno;
 import com.titannet.microservivios.commons.examenes.entity.Pregunta;
 
-@Entity
-@Table(name="respuestas")
+@Document(collection="respuestas")
 public class Respuesta {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	@Id	
+	private String id;
+	
 	private String texto;
 	
 	//@ManyToOne(fetch=FetchType.LAZY)
 	@Transient
 	private Alumno alumno;
 	
-	@Column(name="alumno_id")
+	
 	private Long alumnoId;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@Transient
 	private Pregunta pregunta;
+	
+	private Long preguntaId;
+	
+	
 
-	public long getId() {
+	
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -73,6 +71,13 @@ public class Respuesta {
 		this.alumnoId = alumnoId;
 	}
 
-	
-	
+	public Long getPreguntaId() {
+		return preguntaId;
+	}
+
+	public void setPreguntaId(Long preguntaId) {
+		this.preguntaId = preguntaId;
+	}
+
+		
 }

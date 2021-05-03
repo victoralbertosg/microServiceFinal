@@ -44,7 +44,7 @@ private Date createAt;
 private List<Pregunta> preguntas;
 
 @ManyToOne(fetch=FetchType.LAZY)
-@NotNull
+//@NotNull
 private Asignatura asignatura;
 
 @Transient
