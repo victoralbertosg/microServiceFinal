@@ -19,7 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,9 +39,12 @@ private String nombre;
 @Column(name="create_at")
 private Date createAt;
 
-@JsonIgnoreProperties(value= {"examen"},allowSetters=true)
-@OneToMany(mappedBy="examen", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval=true) //orphan elimina las pregutnas q no tengan examen
+
+
+@JsonIgnoreProperties(value = {"examen"}, allowSetters = true)
+@OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 private List<Pregunta> preguntas;
+
 
 @ManyToOne(fetch=FetchType.LAZY)
 //@NotNull
@@ -87,31 +90,26 @@ public void setCreateAt(Date createAt) {
 }
 
 
+
 public List<Pregunta> getPreguntas() {
 	return preguntas;
 }
 
-
 public void setPreguntas(List<Pregunta> preguntas) {
 	this.preguntas.clear();
-	/*preguntas.forEach(p->{
-	this.addPregunta(p);
-	});*/
-	//por cada pregunta ejecuta el metodo addPregunta, adiciona al lista preguntas y agrega examen el la table preguntas
-	preguntas.forEach(this::addPregunta);	
+	preguntas.forEach(this::addPregunta);
 	
-}	
+}
 
 public void addPregunta(Pregunta pregunta) {
 	this.preguntas.add(pregunta);
 	pregunta.setExamen(this);
 }
 
-public void removePregunta (Pregunta pregunta) {
+public void removePregunta(Pregunta pregunta) {
 	this.preguntas.remove(pregunta);
-	pregunta.setExamen(null);	
+	pregunta.setExamen(null);
 }
-
 
 
 
@@ -137,16 +135,18 @@ public void setRespondido(boolean respondido) {
 
 @Override
 public boolean equals(Object obj) {
-	if(this==obj) {
+	if(this == obj) {
 		return true;
 	}
-	if (!(obj instanceof Examen)) {
+	
+	if(!(obj instanceof Examen)) {
 		return false;
 	}
-	Examen a=(Examen)obj;
+
+	Examen a = (Examen) obj;
 	
-	
-	return this.id !=null && this.id.equals(a.getId());
+	return this.id != null && this.id.equals(a.getId());
 }
+
 
 }

@@ -16,20 +16,18 @@ public class Respuesta {
 	private String texto;
 	
 	//@ManyToOne(fetch=FetchType.LAZY)
-	@Transient
+	//@Transient
 	private Alumno alumno;
 	
 	
 	private Long alumnoId;
 	
-	@Transient
+	//@Transient
 	private Pregunta pregunta;
 	
 	private Long preguntaId;
 	
-	
 
-	
 
 	public String getId() {
 		return id;

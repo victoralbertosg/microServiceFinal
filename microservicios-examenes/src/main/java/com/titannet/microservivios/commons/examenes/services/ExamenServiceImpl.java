@@ -32,4 +32,19 @@ public class ExamenServiceImpl extends CommonServiceImp<Examen,ExamenRepository>
 		return asignaturaRepository.findAll();
 	}
 
+	/*@Override
+	@Transactional(readOnly=true)
+	public Iterable<Long> findExamenesIdsConRespuestasByPreguntaIds(Iterable<Long> preguntaIds) {				
+		//return repository.findExamenesIdsConRespuestasByPreguntasIds(preguntaIds);
+		return repository.findExamenesIdsConRespuestasByPreguntaIds(preguntaIds);		
+	}*/
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Long> findExamenesIdsConRespuestasByPreguntaIds(Iterable<Long> preguntasIds) {
+		return repository.findExamenesIdsConRespuestasByPreguntaIds(preguntasIds);
+	}
+
+	
+
 }

@@ -148,8 +148,7 @@ public class CursoController extends CommonController<Curso, CursoService> {
 			return ResponseEntity.notFound().build();
 		}
 		Curso dbCurso = o.get();
-		dbCurso.removeExamen(examen);
-		;
+		dbCurso.removeExamen(examen);		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dbCurso));
 	}
 

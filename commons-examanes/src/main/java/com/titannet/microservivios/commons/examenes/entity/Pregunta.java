@@ -21,8 +21,9 @@ private Long id;
 
 private String texto;
 
-@JsonIgnoreProperties(value= {"preguntas"})
-@ManyToOne(fetch=FetchType.LAZY)
+
+@JsonIgnoreProperties(value = {"preguntas"})
+@ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name="examen_id")
 private Examen examen;
 
@@ -45,19 +46,22 @@ public void setTexto(String texto) {
 	this.texto = texto;
 }
 
+
 @Override
 public boolean equals(Object obj) {
-	
-	if (this==obj) {
+	if(this == obj) {
 		return true;
 	}
-	if (!(obj instanceof Pregunta)) {
+	
+	if(!(obj instanceof Pregunta)) {
 		return false;
 	}
-	Pregunta a=(Pregunta)obj;
+
+	Pregunta a = (Pregunta) obj;
 	
-	return this.id!=null && this.id.equals(a.getId());
+	return this.id != null && this.id.equals(a.getId());
 }
+
 
 
 }
